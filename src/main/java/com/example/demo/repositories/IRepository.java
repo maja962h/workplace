@@ -10,8 +10,9 @@ public interface IRepository<T> {
     public T getSingleById(int id);
 
     //Create
-    public boolean create(T entity);
+    public void create(T entity);
 
     //Update
+
     //Delete
 }

@@ -40,7 +40,7 @@ public class DepartmentRepository implements IRepository<Department>{
     }
 
     @Override
-    public boolean create(Department entity) {
-        return false;
+    public void create(Department entity) {
+
     }
 }
