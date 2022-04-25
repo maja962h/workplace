@@ -1,3 +1,12 @@
 table, th, td {
     border: 1px solid black;
 }
+
+.form{
+    width:70%;
+    align-items: center;
+}
+
+a{
+    text-decoration: none;
+}
