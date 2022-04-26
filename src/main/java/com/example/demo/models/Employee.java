@@ -1,17 +1,19 @@
 package com.example.demo.models;
 
+import java.util.Date;
+
 public class Employee {
 
     private int employeeID;
     private String employeeName;
     private String job;
-    private String manager;
-    private String hireDate;
-    private String salary;
-    private String commission;
-    private String departmentNumber;
+    private int manager;
+    private java.sql.Date hireDate;
+    private int salary;
+    private int commission;
+    private int departmentNumber;
 
-    public Employee(int employeeID, String employeeName, String job, String manager, String hireDate, String salary, String commission, String departmentNumber) {
+    public Employee(int employeeID, String employeeName, String job, int manager, java.sql.Date hireDate, int salary, int commission, int departmentNumber) {
         this.employeeID = employeeID;
         this.employeeName = employeeName;
         this.job = job;
@@ -34,23 +36,23 @@ public class Employee {
         return job;
     }
 
-    public String getManager() {
+    public int getManager() {
         return manager;
     }
 
-    public String getHireDate() {
+    public java.sql.Date getHireDate() {
         return hireDate;
     }
 
-    public String getSalary() {
+    public int getSalary() {
         return salary;
     }
 
-    public String getCommission() {
+    public int getCommission() {
         return commission;
     }
 
-    public String getDepartmentNumber() {
+    public int getDepartmentNumber() {
         return departmentNumber;
     }
 }

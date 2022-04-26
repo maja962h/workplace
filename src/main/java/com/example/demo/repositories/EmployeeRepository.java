@@ -10,8 +10,6 @@ import java.util.List;
 public class EmployeeRepository implements IRepository <Employee> {
 
     Connection conn;
-    Statement stmt;
-    String sqlString;
 
     public EmployeeRepository(){
         conn = DatabaseConnectionManager.getConnection();
@@ -29,11 +27,11 @@ public class EmployeeRepository implements IRepository <Employee> {
                         rs.getInt(1),
                         rs.getString(2),
                         rs.getString(3),
-                        rs.getString(4),
-                        rs.getString(5),
-                        rs.getString(6),
-                        rs.getString(7),
-                        rs.getString(8)
+                        rs.getInt(4),
+                        rs.getDate(5),
+                        rs.getInt(6),
+                        rs.getInt(7),
+                        rs.getInt(8)
                 );
                 allEmployees.add(empToView);
             }
@@ -56,11 +54,11 @@ public class EmployeeRepository implements IRepository <Employee> {
                         rs.getInt(1),
                         rs.getString(2),
                         rs.getString(3),
-                        rs.getString(4),
-                        rs.getString(5),
-                        rs.getString(6),
-                        rs.getString(7),
-                        rs.getString(8)
+                        rs.getInt(4),
+                        rs.getDate(5),
+                        rs.getInt(6),
+                        rs.getInt(7),
+                        rs.getInt(8)
                 );
             }
 
@@ -74,22 +72,21 @@ public class EmployeeRepository implements IRepository <Employee> {
 
     @Override
     public void create(Employee entity) {
-        String name = entity.getEmployeeName();
-        String job = entity.getJob();
-        String manager = entity.getManager();
-        String dateOfHire = entity.getHireDate();
-        String salary = entity.getSalary();
-        String commission = entity.getCommission();
-        String deptNum = entity.getDepartmentNumber();
 
         try{
 
-            stmt = conn.createStatement();
-            sqlString = "INSERT INTO `workplace`.`employees` (`employee_name`, `job`, manager, hiredate, salary, commission, department_number) " +
-                    "VALUES ('" + name + "', '" + job + "', " + manager + ", " + dateOfHire + ", "  + salary + ", " + commission + ", " + deptNum + ") ";
+            PreparedStatement pstmt = conn.prepareStatement ("INSERT INTO `workplace`.`employees` (`employee_name`, `job`, `manager`, `hiredate`, salary, commission, `department_number`) " +
+                    "VALUES (?,?,?,?,?,?,?)");
 
-            stmt.executeUpdate(sqlString);
+                pstmt.setString(1, entity.getEmployeeName());
+                pstmt.setString(2, entity.getJob());
+                pstmt.setInt(3, entity.getManager());
+                pstmt.setDate(4, entity.getHireDate());
+                pstmt.setInt(5, entity.getSalary());
+                pstmt.setInt(6, entity.getCommission());
+                pstmt.setInt(7, entity.getDepartmentNumber());
 
+            pstmt.executeUpdate();
 
         } catch (SQLException e){
             System.out.println("Something's wrong.");
@@ -97,4 +94,17 @@ public class EmployeeRepository implements IRepository <Employee> {
         }
 
     }
+
+    public boolean commissionLimit(Employee employee){
+        boolean isValid;
+
+        if (employee.getCommission() > employee.getSalary()){
+            isValid = false;
+        } else {
+            isValid = true;
+        }
+
+        return isValid;
+    }
+
 }

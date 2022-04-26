@@ -10,12 +10,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.context.request.WebRequest;
 
+import java.sql.Date;
 
 @Controller
 public class EmployeeController {
     private final IRepository <Employee> employeeRepository = new EmployeeRepository();
 
-    @GetMapping("/employees")
+    @GetMapping("/all_employees")
     public String employees(Model model){
         model.addAttribute("employees", employeeRepository.getAllEntities());
         return "employees";
@@ -33,23 +34,21 @@ public class EmployeeController {
         return "/createemployee";
     }
 
-    @PostMapping("/new_employee")
+    @PostMapping("/create_employee")
     public String createNewEmployee(WebRequest formDate){
-        EmployeeRepository er = new EmployeeRepository();
 
         String name = formDate.getParameter("name");
         String job = formDate.getParameter("job");
-        String manager = formDate.getParameter("manager");
-        String hireDate = formDate.getParameter("hireDate");
-        String salary = formDate.getParameter("salary");
-        String commission = formDate.getParameter("commission");
-        String deptNum = formDate.getParameter("deptNum");
+        int manager = Integer.parseInt(formDate.getParameter("manager"));
+        java.sql.Date hireDate = Date.valueOf(formDate.getParameter("hireDate"));
+        int salary = Integer.parseInt(formDate.getParameter("salary"));
+        int commission = Integer.parseInt(formDate.getParameter("commission"));
+        int deptNum = Integer.parseInt(formDate.getParameter("deptNum"));
 
         Employee employeeToAdd = new Employee(-1, name, job, manager, hireDate, salary, commission, deptNum);
-        er.create(employeeToAdd);
+        employeeRepository.create(employeeToAdd);
 
-
-        return "redirect:/employees";
+        return "redirect:/all_employees";
     }
 
 
